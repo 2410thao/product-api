@@ -1,0 +1,33 @@
+#%RAML 1.0
+title: product-api
+baseUri: http://localhost:8081/api/
+/products:
+  get:
+    description: To get products
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              {
+                "productID": "2410",
+                "productName": "David Le",
+                "productProvider": "Udemy",
+                "productDescription": "Complete mule developer course"
+              }
+      404:
+        body:
+          application/json:
+            example:
+              {
+                "status": 404,
+                "message": "Products Not Found"
+              }
+      500:
+        body:
+          application/json:
+            example:
+              {
+                "status": 500,
+                "message": "Internal Server Error"
+              }
