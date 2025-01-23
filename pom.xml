@@ -4,20 +4,79 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.mycompany</groupId>
+	<groupId>45c7bf3f-29b3-4f2c-84ed-b2589706c0c4</groupId>
 	<artifactId>product-api</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.6</version>
 	<packaging>mule-application</packaging>
 
 	<name>product-api</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<project.reporting.outputEncoding>UTF-8
+		</project.reporting.outputEncoding>
 
 		<app.runtime>4.8.1</app.runtime>
 		<mule.maven.plugin.version>4.3.0</mule.maven.plugin.version>
+		<munit.version>3.3.0</munit.version>
 	</properties>
+
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.mule.tools.maven</groupId>
+						<artifactId>mule-maven-plugin</artifactId>
+						<version>${mule.maven.plugin.version}</version>
+						<extensions>true</extensions>
+						<configuration>
+							<cloudhub2Deployment>
+								<environment>Dev</environment>
+								<applicationName>abc-dev-product-api-profile</applicationName>
+								<replicas>1</replicas>
+								<vCores>0.1</vCores>
+								<properties>
+									<env>dev</env>
+									<api.id>20169245</api.id>
+									<anypoint.platform.client_id>4637c2c1339f49f292015330b7c04f05</anypoint.platform.client_id>
+									<anypoint.platform.client_secret>AEFC8CeEcE78437eb9b487412759f802</anypoint.platform.client_secret>
+								</properties>
+							</cloudhub2Deployment>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>test</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.mule.tools.maven</groupId>
+						<artifactId>mule-maven-plugin</artifactId>
+						<version>${mule.maven.plugin.version}</version>
+						<extensions>true</extensions>
+						<configuration>
+							<cloudhub2Deployment>
+								<environment>Test</environment>
+								<applicationName>abc-test-product-api-profile</applicationName>
+								<replicas>1</replicas>
+								<vCores>0.1</vCores>
+								<properties>
+									<env>test</env>
+									<api.id>20169245</api.id>
+									<anypoint.platform.client_id>7148f23cf0494a8b9a0f13d53ae59c20</anypoint.platform.client_id>
+									<anypoint.platform.client_secret>A94D959209b34C71A61Ed257Dad46e5C</anypoint.platform.client_secret>
+								</properties>
+							</cloudhub2Deployment>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 	<build>
 		<plugins>
@@ -32,26 +91,43 @@
 				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
 				<configuration>
-					<cloudHubDeployment>
+					<cloudhub2Deployment>
 						<uri>https://anypoint.mulesoft.com</uri>
-						<muleVersion>4.8.1</muleVersion>
-						<username>thaolh4</username>
-						<password>Thao#2410</password>
-						<applicationName>abc-dev-product-api</applicationName>
-						<environment>Dev</environment>
-						<region>us-east-2</region>
-						<workers>1</workers>
-						<workerType>MICRO</workerType>
+						<provider>MC</provider>
+						<target>Cloudhub-US-East-2</target>
+						<muleVersion>4.8.0</muleVersion>
+						<server>anypoint-exchange-v3</server>
+						<deploymentSettings>
+							<generateDefaultPublicUrl>true</generateDefaultPublicUrl>
+						</deploymentSettings>
 						<properties>
 							<http.port>8081</http.port>
-							<env>Dev</env>
-							<api.id>20164846</api.id>
-							<anypoint.platform.client_id>4637c2c1339f49f292015330b7c04f05</anypoint.platform.client_id>
-							<anypoint.platform.client_secret>AEFC8CeEcE78437eb9b487412759f802</anypoint.platform.client_secret>
 							<anypoint.platform.base_uri>https://anypoint.mulesoft.com</anypoint.platform.base_uri>
 							<anypoint.platform.analytics_base_uri>https://analytics-ingest.anypoint.mulesoft.com</anypoint.platform.analytics_base_uri>
 						</properties>
-					</cloudHubDeployment>
+					</cloudhub2Deployment>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.mulesoft.munit.tools</groupId>
+				<artifactId>munit-maven-plugin</artifactId>
+				<version>${munit.version}</version>
+				<executions>
+					<execution>
+						<id>test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<coverage>
+						<runCoverage>true</runCoverage>
+						<formats>
+							<format>html</format>
+						</formats>
+					</coverage>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -104,5 +180,13 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
-
+	<distributionManagement>
+		<repository>
+			<id>anypoint-exchange-v3</id>
+			<name>Corporate Repository</name>
+			<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven
+			</url>
+			<layout>default</layout>
+		</repository>
+	</distributionManagement>
 </project>
