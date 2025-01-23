@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<settings>
+  <pluginGroups>
+    <pluginGroup>com.mule.tools</pluginGroup>
+  </pluginGroups>
+  <servers>
+    <server>
+      <id>anypoint-exchange-v3</id>
+      <username>~~~Client~~~</username>
+       <!-- FSA24CT -->
+      <!-- <password>4a456410923d45ddaa468dba9b8da55c~?~9388453226b64059Ac039f5593A74933</password> -->
+      <!-- FPT Software -->
+      <!-- <password>9952e4186ec74299af5dbc1a2826d7f6~?~6e0a9af680f84Ee7A2E5B31fc9946028</password> -->
+      <!-- Thaoproduct -->
+      <password>53a3417ad59b4d0691c37317df7a538a~?~7c5fFcF445e94065a8DB92C5add33E34</password>
+    </server>
+  </servers>
+  
+</settings>  
